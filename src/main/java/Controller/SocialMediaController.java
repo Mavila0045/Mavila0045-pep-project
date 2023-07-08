@@ -34,8 +34,8 @@ public class SocialMediaController {
         app.post("/messages", this::postMessageHandler);
         app.patch("/messages/{message_id}", this::updateMessageHandler);
         app.delete("/messages/{message_id}", this::deleteMessageHandler);
-        app.get("/accounts/{account_id}/messages.", this::getAllMessagesHandler);
-        app.get("/messages", this::getAllMessagesByUserHandler);
+        app.get("/messages", this::getAllMessagesHandler);
+        app.get("/accounts/{account_id}/messages", this::getAllMessagesByUserHandler);
         app.get("/messages/{message_id}", this::getMessagesByIdHandler);
 
         app.post("/register", this::postAccountHandler);
@@ -93,8 +93,11 @@ public class SocialMediaController {
         ctx.json(mapper.writeValueAsString(allMessages));
     }
 
-    private void getAllMessagesByUserHandler(Context ctx){
-        ctx.json(messageService.retrieveAllMessagesForUser(Integer.parseInt(ctx.pathParam("posted_by"))));
+    private void getAllMessagesByUserHandler(Context ctx) throws JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        List<Message> userMessages = messageService.retrieveAllMessagesForUser(Integer.parseInt(ctx.pathParam("account_id")));
+
+        ctx.json(mapper.writeValueAsString(userMessages));
     }
 
     private void getMessagesByIdHandler(Context ctx) throws JsonProcessingException{
