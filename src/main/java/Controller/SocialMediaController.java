@@ -86,21 +86,21 @@ public class SocialMediaController {
         }
     }
 
-    private void getAllMessagesHandler(Context ctx) throws JsonProcessingException{
+    private void getAllMessagesHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         List<Message> allMessages = messageService.retrieveAllMessages();
         
         ctx.json(mapper.writeValueAsString(allMessages));
     }
 
-    private void getAllMessagesByUserHandler(Context ctx) throws JsonProcessingException{
+    private void getAllMessagesByUserHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         List<Message> userMessages = messageService.retrieveAllMessagesForUser(Integer.parseInt(ctx.pathParam("account_id")));
 
         ctx.json(mapper.writeValueAsString(userMessages));
     }
 
-    private void getMessagesByIdHandler(Context ctx) throws JsonProcessingException{
+    private void getMessagesByIdHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         int message_id = Integer.parseInt(ctx.pathParam("message_id"));
         Message message = messageService.retrieveMessagebyMessage_id(message_id);
