@@ -32,13 +32,18 @@ public class MessageService {
         return this.messageDAO.insertMessage(message);
     }
 
-    public List<Message> deleteMessageByMessage_Id(int id) {
-        this.messageDAO.deleteMessageById(id);
-        return this.messageDAO.getAllMessages();
+    public Message deleteMessageByMessage_Id(int id) {
+        Message message = this.messageDAO.getMessageById(id);
+        if(message != null) {
+            this.messageDAO.deleteMessageById(id);
+            return message;
+        }
+        
+        return null;
     }
 
-    public List<Message> updateMessageByMessage_Id(int id, Message message) {
+    public Message updateMessageByMessage_Id(int id, Message message) {
         this.messageDAO.updateMessage(id, message);
-        return this.messageDAO.getAllMessages();
+        return this.messageDAO.getMessageById(id);
     }
 }
