@@ -114,29 +114,32 @@ public class MessageDAO {
             preparedStatement.setInt(1, id);
 
             preparedStatement.executeUpdate();
+
         }
         catch(SQLException e){
             System.out.println(e.getMessage());
         }
     }
 
-    public void updateMessage(int id, Message message){
+    public Message updateMessage(int id, Message message){
         Connection connection = ConnectionUtil.getConnection();
         try {
-            String sql = "Update message set posted_by = ?, message_text = ?, time_posted_epoch where message_id = ?";
+            String sql = "Update message set message_text = ? where message_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            //write PreparedStatement setString and setInt methods here.
-            preparedStatement.setInt(1, message.getPosted_by());
-            preparedStatement.setString(2, message.getMessage_text());
-            preparedStatement.setLong(3, message.getTime_posted_epoch());
-            preparedStatement.setInt(4, id);
+            preparedStatement.setString(1, message.getMessage_text());
+            preparedStatement.setInt(2, id);
 
             preparedStatement.executeUpdate();
+            ResultSet pkeyResultSet = preparedStatement.getGeneratedKeys();
+            if(pkeyResultSet.next()){
+                return new Message(id, message.getPosted_by(), message.getMessage_text(), message.getTime_posted_epoch());
+            }
         }
         catch(SQLException e){
             System.out.println(e.getMessage());
         }
+        return new Message(id, message.getPosted_by(), message.getMessage_text(), message.getTime_posted_epoch());
     }
 
 }

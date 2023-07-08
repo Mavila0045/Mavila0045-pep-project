@@ -29,7 +29,10 @@ public class MessageService {
     }
 
     public Message createMessage(Message message) {
-        return this.messageDAO.insertMessage(message);
+        if(0 < message.getMessage_text().length() && message.getMessage_text().length() < 255 && this.messageDAO.getMessagesByUser(message.getMessage_id()) != null) {
+            return this.messageDAO.insertMessage(message);
+        }
+        return null;
     }
 
     public Message deleteMessageByMessage_Id(int id) {
@@ -43,7 +46,6 @@ public class MessageService {
     }
 
     public Message updateMessageByMessage_Id(int id, Message message) {
-        this.messageDAO.updateMessage(id, message);
-        return this.messageDAO.getMessageById(id);
+        return this.messageDAO.updateMessage(id, message);
     }
 }

@@ -29,15 +29,15 @@ public class SocialMediaController {
      */
     public Javalin startAPI() {
         Javalin app = Javalin.create();
-        app.post("localhost:8080/messages", this::postMessageHandler);
-        app.patch("localhost:8080/messages/{message_id}", this::updateMessageHandler);
-        app.delete("localhost:8080/messages/{message_id}", this::deleteMessageHandler);
-        app.get("localhost:8080/messages", this::getAllMessagesHandler);
+        app.post("/messages", this::postMessageHandler);
+        app.patch("/messages/{message_id}", this::updateMessageHandler);
+        app.delete("/messages/{message_id}", this::deleteMessageHandler);
+        app.get("/accounts/{account_id}/messages.", this::getAllMessagesHandler);
         app.get("/messages", this::getAllMessagesByUserHandler);
         app.get("/localhost:8080/messages/{message_id}", this::getMessagesByIdHandler);
 
-        app.post("localhost:8080/register", this::postAccountHandler);
-        app.post("localhost:8080/login", this::getLoginUser);
+        app.post("/register", this::postAccountHandler);
+        app.post("/login", this::getLoginUser);
 
         return app;
     }
@@ -79,12 +79,7 @@ public class SocialMediaController {
         int message_id = Integer.parseInt(ctx.pathParam("message_id"));
         Message deletedMessage = messageService.deleteMessageByMessage_Id(message_id);
         System.out.println(deletedMessage);
-        if(deletedMessage == null){
-            ctx.status(400);
-        }
-        else{
-            ctx.json(mapper.writeValueAsString(deletedMessage));
-        }
+        ctx.json(mapper.writeValueAsString(deletedMessage));
     }
 
     private void getAllMessagesHandler(Context ctx){
@@ -116,7 +111,7 @@ public class SocialMediaController {
         Account account = mapper.readValue(ctx.body(), Account.class);
         Account loggedIn = accountService.loginUser(account);
         if(loggedIn == null){
-            ctx.status(400);
+            ctx.status(401);
         }
         else {
             ctx.json(mapper.writeValueAsString(loggedIn));
