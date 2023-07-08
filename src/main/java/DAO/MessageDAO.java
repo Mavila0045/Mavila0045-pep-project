@@ -121,7 +121,7 @@ public class MessageDAO {
         }
     }
 
-    public Message updateMessage(int id, Message message){
+    public void updateMessage(int id, Message message){
         Connection connection = ConnectionUtil.getConnection();
         try {
             String sql = "Update message set message_text = ? where message_id = ?";
@@ -131,15 +131,10 @@ public class MessageDAO {
             preparedStatement.setInt(2, id);
 
             preparedStatement.executeUpdate();
-            ResultSet pkeyResultSet = preparedStatement.getGeneratedKeys();
-            if(pkeyResultSet.next()){
-                return new Message(id, message.getPosted_by(), message.getMessage_text(), message.getTime_posted_epoch());
-            }
         }
         catch(SQLException e){
             System.out.println(e.getMessage());
         }
-        return new Message(id, message.getPosted_by(), message.getMessage_text(), message.getTime_posted_epoch());
     }
 
 }
