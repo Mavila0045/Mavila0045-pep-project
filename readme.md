@@ -6,6 +6,10 @@ When building a full-stack application, we're typically concerned with both a fr
 
 This project will be a backend for a hypothetical social media app, where we must manage our users’ accounts as well as any messages that they submit to the application. The application will function as a micro-blogging or messaging app. In our hypothetical application, any user should be able to see all of the messages posted to the site, or they can see the messages posted by a particular user. In either case, we require a backend which is able to deliver the data needed to display this information as well as process actions like logins, registrations, message creations, message updates, and message deletions.
 
+## Project Overview
+
+This social media application will be an api backend without a frontend. The app will have the ability to manage user accounts and messages that they submit to the application. Users will be able to see all of the messages posted to the site as well as the messages posted by a particular user. In either case, we require a backend which is able to deliver the data needed to display this information as well as process actions like logins, registrations, message creations, message updates, and message deletions.
+
 ## Database Tables 
 
 These will be provided in a sql script, and a ConnectionUtil class that will run the sql script is provided:
@@ -25,6 +29,14 @@ message_text varchar(255),
 time_posted_epoch long,
 foreign key (posted_by) references Account(account_id)
 ```
+
+# Technologies Used
+
+- Java
+- Javalin
+- JDBC
+- SQL
+- REST
 
 # Requirements
 
@@ -82,16 +94,6 @@ As a user, I should be able to submit a GET request on the endpoint GET localhos
 
 - The response body should contain a JSON representation of a list containing all messages posted by a particular user, which is retrieved from the database. It is expected for the list to simply be empty if there are no messages. The response status should always be 200, which is the default.
 
-# Further guidance
+# Credit
 
-Some classes are already complete and SHOULD NOT BE CHANGED - Integration tests, Model classes for Account and Message, a ConnectionUtil class. Changing any of these classes will likely result in the test cases being impossible to pass.
-
-The .sql script found in src/main/resources is already complete and SHOULD NOT BE CHANGED. Changing this file will likely result in the test cases being impossible to pass.
-
-You SHOULD be changing the SocialMediaController class to add endpoints to the StartAPI method. A main method in Main.java is also provided to allow you to run the entire application and manually play or test with the app. Changing that class will not affect the test cases at all. You could use it to perform any manual unit testing on your other classes.
-
-You SHOULD be creating and designing DAO and Service class to allow you to complete the project. In theory, you could design the project however you like, so long as the functionality works and you are somehow persisting data to the database - but a 3-layer architecture is a robust design pattern and following help you in the long run. You can refer to prior mini-projects and course material for help on designing your application in this way.
-
-# Good luck!
-
-ted balashov
+This project was made as a product of Revature's PEP program.
